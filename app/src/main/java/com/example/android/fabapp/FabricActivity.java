@@ -33,6 +33,7 @@ public class FabricActivity extends AppCompatActivity implements FabricListAdapt
         setContentView(R.layout.activity_fabric);
 
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setTitle("Fabric Library");
 
         mFabricViewModel = ViewModelProviders.of(this).get(FabricViewModel.class);
