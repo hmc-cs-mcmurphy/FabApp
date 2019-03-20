@@ -1,6 +1,5 @@
 package com.example.android.fabapp;
 
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,10 +14,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,14 +52,15 @@ public class NewFabricActivity extends AppCompatActivity {
         mEditFabricMaker = findViewById(R.id.fabric_maker);
         mEditFabricYardage = findViewById(R.id.fabric_yardage);
         mEditFabricPurchaseLocation = findViewById(R.id.fabric_purchase_location);
+        dispatchTakePictureIntent();
 
-        final Button pictureButton = findViewById(R.id.button_take_picture);
-        pictureButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dispatchTakePictureIntent();
-            }
-        });
+//        final Button pictureButton = findViewById(R.id.button_take_picture);
+//        pictureButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dispatchTakePictureIntent();
+//            }
+//        });
 
         final Button button = findViewById(R.id.button_save);
         button.setOnClickListener(new View.OnClickListener() {
@@ -185,5 +183,6 @@ public class NewFabricActivity extends AppCompatActivity {
 
         Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
         mEditImageView.setImageBitmap(bitmap);
+
     }
 }
