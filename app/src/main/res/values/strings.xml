@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">FabApp</string>
+    <string name="action_settings">Settings</string>
+    <string name="hint_word">Project...</string>
+    <string name="hint_dimen">Dimensions...</string>
+    <string name="hint_start">Start Date...</string>
+    <string name="button_save">Save</string>
+    <string name="button_view_projects">View projects</string>
+    <string name="button_view_fabric">View fabric</string>
+    <string name="button_add_fabric">Click to add fabric</string>
+    <string name="button_view_fabrics">Click to view your fabrics</string>
+    <string name="view_pick_date"></string>
+    <string name="button_pick_date">Pick a date</string>
+    <string name="button_take_picture">Take a picture of your fabric</string>
+    <string name="fabric_name_hint_word">Name of the fabric.</string>
+    <string name="f_line_hint_word">Name of the fabric line, if known.</string>
+    <string name="f_maker_hint_word">Name of the fabric maker, if known.</string>
+    <string name="f_yardage_hint_word">How much of the fabric you have, if known.</string>
+    <string name="f_purchase_hint_word">Where you bought the fabric, if known.</string>
+    <string name="empty_not_saved">Project not saved because it is empty.</string>
+</resources>
