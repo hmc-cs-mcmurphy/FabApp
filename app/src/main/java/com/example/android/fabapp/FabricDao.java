@@ -16,6 +16,6 @@ public interface FabricDao {
     @Query("DELETE FROM fabric_table")
     void deleteAll();
 
-    @Query("SELECT * from fabric_table ORDER BY fabric_name ASC")
+    @Query("SELECT * from fabric_table ORDER BY fabric_uri ASC")
     LiveData<List<Fabric>> getAllFabrics();
 }

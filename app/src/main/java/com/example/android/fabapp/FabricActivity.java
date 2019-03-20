@@ -6,10 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -29,8 +32,10 @@ public class FabricActivity extends AppCompatActivity implements FabricListAdapt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fabric);
 
-        mFabricViewModel = ViewModelProviders.of(this).get(FabricViewModel.class);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Fabric Library");
 
+        mFabricViewModel = ViewModelProviders.of(this).get(FabricViewModel.class);
 
         FloatingActionButton viewFabricButton = findViewById(R.id.fabric_fab);
 
@@ -84,5 +89,15 @@ public class FabricActivity extends AppCompatActivity implements FabricListAdapt
         intent.putExtra("fabric_name", fabric.getFabricName());
         intent.putExtra("fabric_uri", fabric.getFabricUri());
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle arrow click here
+        if (item.getItemId() == android.R.id.home) {
+            finish(); // close this activity and return to preview activity (if there is any)
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -41,7 +41,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".FabricActivity" />
+        <activity android:name=".FabricActivity"
+            android:parentActivityName=".FrontPageActivity"/>
         <activity android:name=".NewFabricActivity" />
         <activity android:name=".FabricDetailsActivity" />
     </application>
