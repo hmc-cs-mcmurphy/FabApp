@@ -1,6 +1,7 @@
 package com.example.android.fabapp;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +37,7 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
 
 
 //     Added in place of package private one below March 3
-    public ProjectListAdapter(Context context, OnProjectListener onProjectListener) {
+ProjectListAdapter(Context context, OnProjectListener onProjectListener) {
 //        this.mProjects = projects;
         this.mOnProjectListener = onProjectListener;
         mInflater = LayoutInflater.from(context);
@@ -45,23 +46,22 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
 //        mInflater = LayoutInflater.from(context);
 //    }
 
+    @NonNull
     @Override
-    public ProjectViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ProjectViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = mInflater.inflate(R.layout.recyclerview_item, parent, false);
         return new ProjectViewHolder(itemView, mOnProjectListener);
     }
 
     @Override
-    public void onBindViewHolder(ProjectViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ProjectViewHolder holder, int position) {
         if (mProjects != null) {
             Project current = mProjects.get(position);
             String content = current.getProject();
-            content += " ";
-            content += current.getDimension();
             holder.projectItemView.setText(content);
         } else {
             // Covers the case of data not being ready yet.
-            holder.projectItemView.setText("No Project");
+            holder.projectItemView.setText(R.string.no_project);
         }
     }
 

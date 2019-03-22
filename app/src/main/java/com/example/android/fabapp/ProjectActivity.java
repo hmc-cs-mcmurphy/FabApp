@@ -1,13 +1,11 @@
 package com.example.android.fabapp;
 
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,8 +19,8 @@ import android.widget.Toast;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements ProjectListAdapter.OnProjectListener {
-    private static final String TAG = "MainActivity";
+public class ProjectActivity extends AppCompatActivity implements ProjectListAdapter.OnProjectListener {
+    private static final String TAG = "ProjectActivity";
     public static final int NEW_PROJECT_ACTIVITY_REQUEST_CODE = 1;
 
     private ProjectViewModel mProjectViewModel;
@@ -49,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements ProjectListAdapte
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, NewProjectActivity.class);
+                Intent intent = new Intent(ProjectActivity.this, NewProjectActivity.class);
                 startActivityForResult(intent, NEW_PROJECT_ACTIVITY_REQUEST_CODE);
             }
         });

@@ -25,15 +25,16 @@
         </provider>
 
         <activity
-            android:name=".MainActivity"
+            android:name=".ProjectActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".FrontPageActivity" />
         </activity>
-        <activity android:name=".NewProjectActivity"></activity>
-        <activity android:name=".ProjectDetailsActivity"></activity>
+        <activity android:name=".NewProjectActivity"/>
+        <activity android:name=".ProjectDetailsActivity"
+            android:parentActivityName=".ProjectActivity"/>
         <activity android:name=".FrontPageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,6 +49,7 @@
         <activity android:name=".FabricDetailsActivity"
             android:parentActivityName=".FabricActivity"/>
         <activity android:name=".FabricEditActivity" />
+        <activity android:name=".ProjectEditActivity"/>
     </application>
 
 </manifest>
