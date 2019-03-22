@@ -1,5 +1,6 @@
 package com.example.android.fabapp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -187,10 +188,10 @@ public class FabricEditActivity extends AppCompatActivity {
 
     private File createImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat(getString(R.string.DATE_FORMAT)).format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = null;
+        File image;
         try {
             image = File.createTempFile(
                     imageFileName,  /* prefix */
@@ -216,7 +217,6 @@ public class FabricEditActivity extends AppCompatActivity {
 
     public void loadImageFromFile(){
 
-//        ImageView view = (ImageView)this.findViewById(R.id.image_view_fabric);
         mEditImageView.setVisibility(View.VISIBLE);
 
 

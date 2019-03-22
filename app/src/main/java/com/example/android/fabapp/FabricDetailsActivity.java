@@ -64,7 +64,7 @@ public class FabricDetailsActivity extends AppCompatActivity {
 
         if (id == R.id.action_edit_fabric) {
             Fabric fabric = getFabric();
-            goToEditFabric(fabric);
+            goToFabricEdit(fabric);
             mFabricViewModel.delete(fabric);
             return true;
         }
@@ -79,6 +79,11 @@ public class FabricDetailsActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * getIncomingIntent
+     *
+     * Retrieves the Fabric object out of the incoming Intent.
+     */
     private void getIncomingIntent() {
         Log.d(TAG, "getIncomingIntent: Checking for incoming intent...");
 
@@ -110,15 +115,21 @@ public class FabricDetailsActivity extends AppCompatActivity {
                 fabricPurchaseLocation = getIntent()
                         .getStringExtra("fabric_purchase_location");
 
-            setFabric(fabricName,
+            Fabric fabric = new Fabric(fabricName,
                     fabricUri,
                     fabricLine,
                     fabricMaker,
                     fabricYardage,
                     fabricPurchaseLocation);
+            setFabricView(fabric);
         }
     }
 
+    /**
+     * getFabric
+     *
+     * @return Fabric: returns the Fabric object held in the incoming Intent.
+     */
     private Fabric getFabric() {
         Fabric fabric = null;
 
@@ -159,20 +170,27 @@ public class FabricDetailsActivity extends AppCompatActivity {
         }
         return fabric;
     }
-
-    private void setFabric(String fabricName,
-                           String fabricUri,
-                           String fabricLine,
-                           String fabricMaker,
-                           String fabricYardage,
-                           String fabricPurchaseLocation) {
-        Log.d(TAG, "setFabric: setting fabric.");
-        Log.d(TAG, "setFabric: fabricName is " + fabricName);
-        Log.d(TAG, "setFabric: fabricUri is " + fabricUri);
-        Log.d(TAG, "setFabric: fabricLine is " + fabricLine);
-        Log.d(TAG, "setFabric: fabricMaker is " + fabricMaker);
-        Log.d(TAG, "setFabric: fabricYardage is " + fabricYardage);
-        Log.d(TAG, "setFabric: fabricPurchaseLocation is " + fabricPurchaseLocation);
+    /**
+     * setFabricView(Fabric fabric):
+     *
+     * Given a Fabric object, extract its features
+     * and set them in the View objects for the page.
+     *
+     */
+    private void setFabricView(Fabric fabric) {
+        String fabricName = fabric.getFabricName();
+        String fabricUri = fabric.getFabricUri();
+        String fabricLine = fabric.getFabricLine();
+        String fabricMaker = fabric.getFabricMaker();
+        String fabricYardage = fabric.getFabricYardage();
+        String fabricPurchaseLocation = fabric.getFabricPurchaseLocation();
+        Log.d(TAG, "setFabricView: setting fabric.");
+        Log.d(TAG, "setFabricView: fabricName is " + fabricName);
+        Log.d(TAG, "setFabricView: fabricUri is " + fabricUri);
+        Log.d(TAG, "setFabricView: fabricLine is " + fabricLine);
+        Log.d(TAG, "setFabricView: fabricMaker is " + fabricMaker);
+        Log.d(TAG, "setFabricView: fabricYardage is " + fabricYardage);
+        Log.d(TAG, "setFabricView: fabricPurchaseLocation is " + fabricPurchaseLocation);
 
         TextView name = findViewById(R.id.fabric_name);
         name.setText(fabricName);
@@ -203,23 +221,32 @@ public class FabricDetailsActivity extends AppCompatActivity {
         picture.setImageBitmap(bmImg);
     }
 
+    /**
+     * deleteFabric
+     * @param fabric: fabric object to be deleted from the database.
+     */
     private void deleteFabric(Fabric fabric) {
         mFabricViewModel.delete(fabric);
         Intent upIntent = NavUtils.getParentActivityIntent(this);
         NavUtils.navigateUpTo(this, upIntent);
     }
 
+    /**
+     * deleteFabricDialog
+     *
+     * Displays a confirmation dialog for delete the fabric.
+     */
     private void deleteFabricDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setTitle("Confirm");
-        builder.setMessage("Are you sure you'd like to delete this fabric? It cannot be undone.");
+        builder.setMessage("Are you sure you want to delete this fabric? It cannot be undone.");
 
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 
             public void onClick(DialogInterface dialog, int which) {
-                // Do nothing but close the dialog
-                Log.d(TAG, "onOptionsItemSelected: fabric delete confirmed!!");
+                // Delete the fabric
+                Log.d(TAG, "onOptionsItemSelected: Fabric delete confirmed.");
                 Fabric fabric = getFabric();
                 deleteFabric(fabric);
             }
@@ -228,7 +255,7 @@ public class FabricDetailsActivity extends AppCompatActivity {
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Log.d(TAG, "onOptionsItemSelected: fabric delete denied!!");
+                Log.d(TAG, "onOptionsItemSelected: Fabric delete denied.");
                 // Do nothing
                 dialog.dismiss();
             }
@@ -238,9 +265,13 @@ public class FabricDetailsActivity extends AppCompatActivity {
         alert.show();
     }
 
-    private void goToEditFabric(Fabric fabric) {
-//        Fabric fabric = getFabric();
-        Log.d(TAG, "goToEditFabric: Fabric name is " + fabric.getFabricName());
+    /**
+     * goToFabricEdit
+     *
+     * @param fabric: Fabric object passed the the FabricEditActivity to be displayed and edited.
+     */
+    private void goToFabricEdit(Fabric fabric) {
+        Log.d(TAG, "goToFabricEdit: Fabric name is " + fabric.getFabricName());
         Intent intent = new Intent(FabricDetailsActivity.this, FabricEditActivity.class);
 
         Bundle extras = new Bundle();
@@ -250,7 +281,6 @@ public class FabricDetailsActivity extends AppCompatActivity {
         String fabricMaker = fabric.getFabricMaker();
         String fabricYardage = fabric.getFabricYardage();
         String fabricPurchaseLocation = fabric.getFabricPurchaseLocation();
-        // ADD THE URI FOR THE PHOTO
         Log.d(TAG, "onClick: Fabric name is " + fabricName);
         Log.d(TAG, "onClick: Fabric URI is " + currentPhotoPath);
         extras.putString("FABRIC_NAME", fabricName);
@@ -279,12 +309,7 @@ public class FabricDetailsActivity extends AppCompatActivity {
                     data.getStringExtra("FABRIC_PURCHASE_LOCATION")
             );
             mFabricViewModel.insert(fabric);
-            setFabric(fabric.getFabricName(),
-                    fabric.getFabricUri(),
-                    fabric.getFabricLine(),
-                    fabric.getFabricMaker(),
-                    fabric.getFabricYardage(),
-                    fabric.getFabricPurchaseLocation());
+            setFabricView(fabric);
         } else {
 
             Log.d(TAG, "onActivityResult: BAD");
