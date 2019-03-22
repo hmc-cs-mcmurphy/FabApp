@@ -32,8 +32,8 @@ public class Fabric {
     public Fabric(@NonNull String mFabricName,
                   @NonNull String mFabricUri,
                   String mFabricLine,
-                  String mFabricYardage,
                   String mFabricMaker,
+                  String mFabricYardage,
                   String mFabricPurchaseLocation) {
         this.mFabricName = mFabricName;
         this.mFabricUri = mFabricUri;

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -54,13 +55,9 @@ public class NewFabricActivity extends AppCompatActivity {
         mEditFabricPurchaseLocation = findViewById(R.id.fabric_purchase_location);
         dispatchTakePictureIntent();
 
-//        final Button pictureButton = findViewById(R.id.button_take_picture);
-//        pictureButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dispatchTakePictureIntent();
-//            }
-//        });
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setTitle("Add a new fabric");
 
         final Button button = findViewById(R.id.button_save);
         button.setOnClickListener(new View.OnClickListener() {
@@ -80,6 +77,10 @@ public class NewFabricActivity extends AppCompatActivity {
                     Log.d(TAG, "onClick: Fabric URI is " + currentPhotoPath);
                     extras.putString("FABRIC_NAME", fabricName);
                     extras.putString("FABRIC_URI", currentPhotoPath);
+                    extras.putString("FABRIC_LINE", fabricLine);
+                    extras.putString("FABRIC_MAKER", fabricMaker);
+                    extras.putString("FABRIC_YARDAGE", fabricYardage);
+                    extras.putString("FABRIC_PURCHASE_LOCATION", fabricPurchaseLocation);
                     replyIntent.putExtras(extras);
                     setResult(RESULT_OK, replyIntent);
                 }

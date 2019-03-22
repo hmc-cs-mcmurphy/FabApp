@@ -69,8 +69,14 @@ public class FabricActivity extends AppCompatActivity implements FabricListAdapt
 
         if (requestCode == NEW_FABRIC_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
             Log.d(TAG, "onActivityResult: GOOD");
-            Fabric fabric = new Fabric(data.getStringExtra("FABRIC_NAME"),
-                    data.getStringExtra("FABRIC_URI"), null, null, null, null);
+            Fabric fabric = new Fabric(
+                    data.getStringExtra("FABRIC_NAME"),
+                    data.getStringExtra("FABRIC_URI"),
+                    data.getStringExtra("FABRIC_LINE"),
+                    data.getStringExtra("FABRIC_MAKER"),
+                    data.getStringExtra("FABRIC_YARDAGE"),
+                    data.getStringExtra("FABRIC_PURCHASE_LOCATION")
+            );
             mFabricViewModel.insert(fabric);
         } else {
 
@@ -89,6 +95,10 @@ public class FabricActivity extends AppCompatActivity implements FabricListAdapt
         Intent intent = new Intent(this, FabricDetailsActivity.class);
         intent.putExtra("fabric_name", fabric.getFabricName());
         intent.putExtra("fabric_uri", fabric.getFabricUri());
+        intent.putExtra("fabric_line", fabric.getFabricLine());
+        intent.putExtra("fabric_maker", fabric.getFabricMaker());
+        intent.putExtra("fabric_yardage", fabric.getFabricYardage());
+        intent.putExtra("fabric_purchase_location", fabric.getFabricPurchaseLocation());
         startActivity(intent);
     }
 

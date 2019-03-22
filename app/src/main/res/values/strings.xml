@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">FabApp</string>
     <string name="action_settings">Settings</string>
+    <string name="action_delete_fabric">Delete Fabric</string>
     <string name="hint_word">Project...</string>
     <string name="hint_dimen">Dimensions...</string>
     <string name="hint_start">Start Date...</string>
