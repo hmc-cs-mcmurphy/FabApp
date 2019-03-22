@@ -26,6 +26,10 @@ public class FabricRepository {
         new FabricRepository.insertAsyncTask(mFabricDao).execute(fabric);
     }
 
+    public void delete (Fabric fabric) {
+        new FabricRepository.deleteAsyncTask(mFabricDao).execute(fabric);
+    }
+
     private static class insertAsyncTask extends AsyncTask<Fabric, Void, Void> {
 
         private FabricDao mAsyncTaskDao;
@@ -37,6 +41,18 @@ public class FabricRepository {
         @Override
         protected Void doInBackground(final Fabric... params) {
             mAsyncTaskDao.insert(params[0]);
+            return null;
+        }
+    }
+
+    private static class deleteAsyncTask extends  AsyncTask<Fabric, Void, Void> {
+        private FabricDao mAsyncTaskDao;
+
+        deleteAsyncTask(FabricDao dao) {mAsyncTaskDao = dao; }
+
+        @Override
+        protected Void doInBackground(final Fabric...params) {
+            mAsyncTaskDao.deleteFabric(params[0]);
             return null;
         }
     }

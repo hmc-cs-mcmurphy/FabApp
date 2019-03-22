@@ -20,4 +20,6 @@ public class FabricViewModel extends AndroidViewModel {
     LiveData<List<Fabric>> getAllFabrics() { return mAllFabrics; }
 
     public void insert(Fabric fabric) { mRepository.insert(fabric); }
+
+    public void delete(Fabric fabric) { mRepository.delete(fabric);}
 }

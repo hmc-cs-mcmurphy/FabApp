@@ -1,6 +1,6 @@
 package com.example.android.fabapp;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,8 +23,11 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class NewFabricActivity extends AppCompatActivity {
-    private static final String TAG = "NewFabricActivity";
+public class FabricEditActivity extends AppCompatActivity {
+    private static final String TAG = "FabricEditActivity";
+
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int REQUEST_TAKE_PHOTO = 1;
 
     private EditText mEditFabricNameView;
     private EditText mEditFabricLine;
@@ -32,32 +35,44 @@ public class NewFabricActivity extends AppCompatActivity {
     private EditText mEditFabricYardage;
     private EditText mEditFabricPurchaseLocation;
     private ImageView mEditImageView;
-
-    String currentPhotoPath;
-
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-    static final int REQUEST_TAKE_PHOTO = 1;
-
-    Context context;
-
+    private String currentPhotoPath;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        context = this;
-        setContentView(R.layout.activity_new_fabric);
-        mEditFabricNameView = findViewById(R.id.edit_fabric);
-        mEditImageView = findViewById(R.id.image_view_fabric);
-        mEditFabricLine = findViewById(R.id.fabric_line);
-        mEditFabricMaker = findViewById(R.id.fabric_maker);
-        mEditFabricYardage = findViewById(R.id.fabric_yardage);
-        mEditFabricPurchaseLocation = findViewById(R.id.fabric_purchase_location);
-        dispatchTakePictureIntent();
+        setContentView(R.layout.activity_fabric_edit);
+        mEditFabricNameView = findViewById(R.id.ef_edit_fabric);
+        mEditImageView = findViewById(R.id.ef_image_view_fabric);
+        mEditFabricLine = findViewById(R.id.ef_fabric_line);
+        mEditFabricMaker = findViewById(R.id.ef_fabric_maker);
+        mEditFabricYardage = findViewById(R.id.ef_fabric_yardage);
+        mEditFabricPurchaseLocation = findViewById(R.id.ef_fabric_purchase_location);
 
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
-        actionBar.setTitle("Add a new fabric");
+        actionBar.setTitle("Edit fabric");
+
+        Fabric fabric = getIncomingIntent();
+
+        Bitmap bmImg = BitmapFactory.decodeFile(fabric.getFabricUri());
+        mEditImageView.setImageBitmap(bmImg);
+
+        mEditFabricNameView.setText(fabric.getFabricName());
+        mEditFabricLine.setText(fabric.getFabricLine());
+        mEditFabricMaker.setText(fabric.getFabricMaker());
+        mEditFabricYardage.setText(fabric.getFabricYardage());
+        mEditFabricPurchaseLocation.setText(fabric.getFabricPurchaseLocation());
+
+        currentPhotoPath = fabric.getFabricUri();
+
+        final Button newPictureButton = findViewById(R.id.button_new_picture);
+        newPictureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dispatchTakePictureIntent();
+            }
+        });
 
         final Button button = findViewById(R.id.button_save);
         button.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +102,48 @@ public class NewFabricActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private Fabric getIncomingIntent() {
+        Log.d(TAG, "getIncomingIntent: Checking for incoming intent...");
+        Fabric fabric = null;
+
+        if (getIntent().hasExtra("FABRIC_NAME") &&
+                getIntent().hasExtra("FABRIC_URI")) {
+
+            Log.d(TAG, "getIncomingIntent: found intent extras.");
+
+            String fabricName = getIntent().getStringExtra("FABRIC_NAME");
+            String fabricUri = getIntent().getStringExtra("FABRIC_URI");
+            String fabricLine = null;
+            String fabricMaker = null;
+            String fabricYardage = null;
+            String fabricPurchaseLocation = null;
+
+            if (getIntent().hasExtra("FABRIC_LINE"))
+                fabricLine = getIntent()
+                        .getStringExtra("FABRIC_LINE");
+
+            if (getIntent().hasExtra("FABRIC_MAKER"))
+                fabricMaker = getIntent()
+                        .getStringExtra("FABRIC_MAKER");
+
+            if (getIntent().hasExtra("FABRIC_YARDAGE"))
+                fabricYardage = getIntent()
+                        .getStringExtra("FABRIC_YARDAGE");
+
+            if (getIntent().hasExtra("FABRIC_PURCHASE_LOCATION"))
+                fabricPurchaseLocation = getIntent()
+                        .getStringExtra("FABRIC_PURCHASE_LOCATION");
+            fabric = new Fabric(fabricName,
+                    fabricUri,
+                    fabricLine,
+                    fabricMaker,
+                    fabricYardage,
+                    fabricPurchaseLocation
+            );
+        }
+        return fabric;
     }
 
     private void dispatchTakePictureIntent() {
@@ -121,6 +178,9 @@ public class NewFabricActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG, "onActivityResult: in activity result");
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+//            Bundle extras = data.getExtras();
+//            Bitmap imageBitmap = (Bitmap) extras.get("data");
+//            imageView.setImageBitmap(imageBitmap);
             loadImageFromFile();
         }
     }
@@ -128,7 +188,7 @@ public class NewFabricActivity extends AppCompatActivity {
 
     private File createImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat(getString(R.string.DATE_FORMAT)).format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image;
@@ -157,7 +217,6 @@ public class NewFabricActivity extends AppCompatActivity {
 
     public void loadImageFromFile(){
 
-//        ImageView view = (ImageView)this.findViewById(R.id.image_view_fabric);
         mEditImageView.setVisibility(View.VISIBLE);
 
 

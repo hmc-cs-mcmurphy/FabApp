@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/ef_image_view_fabric"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:contentDescription="@string/fabric_picture"
+            android:cropToPadding="true"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <EditText
+            android:id="@+id/ef_edit_fabric"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/big_padding"
+            android:layout_marginBottom="@dimen/big_padding"
+            android:fontFamily="sans-serif-light"
+            android:hint="@string/fabric_name_hint_word"
+            android:importantForAutofill="no"
+            android:inputType="textAutoComplete"
+            android:padding="@dimen/small_padding"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/ef_fabric_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/big_padding"
+            android:layout_marginBottom="@dimen/big_padding"
+            android:autofillHints="no"
+            android:fontFamily="sans-serif-light"
+            android:hint="@string/f_line_hint_word"
+            android:inputType="textAutoComplete"
+            android:padding="@dimen/small_padding"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/ef_fabric_maker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/big_padding"
+            android:layout_marginBottom="@dimen/big_padding"
+            android:fontFamily="sans-serif-light"
+            android:hint="@string/f_maker_hint_word"
+            android:importantForAutofill="no"
+            android:inputType="textAutoComplete"
+            android:padding="@dimen/small_padding"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/ef_fabric_yardage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/big_padding"
+            android:layout_marginBottom="@dimen/big_padding"
+            android:fontFamily="sans-serif-light"
+            android:hint="@string/f_yardage_hint_word"
+            android:importantForAutofill="no"
+            android:inputType="textAutoComplete"
+            android:padding="@dimen/small_padding"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/ef_fabric_purchase_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/big_padding"
+            android:layout_marginBottom="@dimen/big_padding"
+            android:fontFamily="sans-serif-light"
+            android:hint="@string/f_purchase_hint_word"
+            android:importantForAutofill="no"
+            android:inputType="textAutoComplete"
+            android:padding="@dimen/small_padding"
+            android:textSize="18sp" />
+
+
+        <Button
+            android:id="@+id/button_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:text="@string/button_save"
+            android:textColor="@color/buttonLabel" />
+
+        <Button
+            android:id="@+id/button_new_picture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:text="@string/button_recapture_fabric"
+            android:textColor="@color/buttonLabel" />
+
+    </LinearLayout>
+</ScrollView>
