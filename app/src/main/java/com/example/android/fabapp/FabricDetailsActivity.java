@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -17,9 +16,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class FabricDetailsActivity extends AppCompatActivity {
     private static final String TAG = "FabricDetailsActivity";
+
+
+    public static final int EDIT_FABRIC_ACTIVITY_REQUEST_CODE = 1;
 
     private FabricViewModel mFabricViewModel;
 
@@ -55,34 +58,14 @@ public class FabricDetailsActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_delete_fabric) {
+            deleteFabricDialog();
+            return true;
+        }
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-            builder.setTitle("Confirm");
-            builder.setMessage("Are you sure you'd like to delete this fabric? It cannot be undone.");
-
-            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-
-                public void onClick(DialogInterface dialog, int which) {
-                    // Do nothing but close the dialog
-                    Log.d(TAG, "onOptionsItemSelected: fabric delete confirmed!!");
-                    Fabric fabric = getFabric();
-                    deleteFabric(fabric);
-                }
-            });
-
-            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Log.d(TAG, "onOptionsItemSelected: fabric delete denied!!");
-                    // Do nothing
-                    dialog.dismiss();
-                }
-            });
-
-            AlertDialog alert = builder.create();
-            alert.show();
-
+        if (id == R.id.action_edit_fabric) {
+            Fabric fabric = getFabric();
+            goToEditFabric(fabric);
+            mFabricViewModel.delete(fabric);
             return true;
         }
 
@@ -224,5 +207,91 @@ public class FabricDetailsActivity extends AppCompatActivity {
         mFabricViewModel.delete(fabric);
         Intent upIntent = NavUtils.getParentActivityIntent(this);
         NavUtils.navigateUpTo(this, upIntent);
+    }
+
+    private void deleteFabricDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Confirm");
+        builder.setMessage("Are you sure you'd like to delete this fabric? It cannot be undone.");
+
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing but close the dialog
+                Log.d(TAG, "onOptionsItemSelected: fabric delete confirmed!!");
+                Fabric fabric = getFabric();
+                deleteFabric(fabric);
+            }
+        });
+
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.d(TAG, "onOptionsItemSelected: fabric delete denied!!");
+                // Do nothing
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void goToEditFabric(Fabric fabric) {
+//        Fabric fabric = getFabric();
+        Log.d(TAG, "goToEditFabric: Fabric name is " + fabric.getFabricName());
+        Intent intent = new Intent(FabricDetailsActivity.this, FabricEditActivity.class);
+
+        Bundle extras = new Bundle();
+        String fabricName = fabric.getFabricName();
+        String currentPhotoPath = fabric.getFabricUri();
+        String fabricLine = fabric.getFabricLine();
+        String fabricMaker = fabric.getFabricMaker();
+        String fabricYardage = fabric.getFabricYardage();
+        String fabricPurchaseLocation = fabric.getFabricPurchaseLocation();
+        // ADD THE URI FOR THE PHOTO
+        Log.d(TAG, "onClick: Fabric name is " + fabricName);
+        Log.d(TAG, "onClick: Fabric URI is " + currentPhotoPath);
+        extras.putString("FABRIC_NAME", fabricName);
+        extras.putString("FABRIC_URI", currentPhotoPath);
+        extras.putString("FABRIC_LINE", fabricLine);
+        extras.putString("FABRIC_MAKER", fabricMaker);
+        extras.putString("FABRIC_YARDAGE", fabricYardage);
+        extras.putString("FABRIC_PURCHASE_LOCATION", fabricPurchaseLocation);
+        intent.putExtras(extras);
+
+        startActivityForResult(intent, EDIT_FABRIC_ACTIVITY_REQUEST_CODE);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, "onActivityResult: called");
+
+        if (requestCode == EDIT_FABRIC_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            Log.d(TAG, "onActivityResult: GOOD");
+            Fabric fabric = new Fabric(
+                    data.getStringExtra("FABRIC_NAME"),
+                    data.getStringExtra("FABRIC_URI"),
+                    data.getStringExtra("FABRIC_LINE"),
+                    data.getStringExtra("FABRIC_MAKER"),
+                    data.getStringExtra("FABRIC_YARDAGE"),
+                    data.getStringExtra("FABRIC_PURCHASE_LOCATION")
+            );
+            mFabricViewModel.insert(fabric);
+            setFabric(fabric.getFabricName(),
+                    fabric.getFabricUri(),
+                    fabric.getFabricLine(),
+                    fabric.getFabricMaker(),
+                    fabric.getFabricYardage(),
+                    fabric.getFabricPurchaseLocation());
+        } else {
+
+            Log.d(TAG, "onActivityResult: BAD");
+            Toast.makeText(
+                    getApplicationContext(),
+                    R.string.empty_not_saved,
+                    Toast.LENGTH_LONG).show();
+        }
     }
 }

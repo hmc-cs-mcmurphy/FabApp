@@ -47,6 +47,7 @@
             android:parentActivityName=".FabricActivity"/>
         <activity android:name=".FabricDetailsActivity"
             android:parentActivityName=".FabricActivity"/>
+        <activity android:name=".FabricEditActivity" />
     </application>
 
 </manifest>

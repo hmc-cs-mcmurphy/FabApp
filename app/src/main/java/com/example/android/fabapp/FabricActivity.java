@@ -23,6 +23,7 @@ public class FabricActivity extends AppCompatActivity implements FabricListAdapt
     private static final String TAG = "FabricActivity";
     public static final int NEW_FABRIC_ACTIVITY_REQUEST_CODE = 1;
 
+
     private FabricViewModel mFabricViewModel;
     private List<Fabric> mFabrics;
 
