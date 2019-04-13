@@ -24,6 +24,9 @@
     <string name="f_purchase_hint_word">Where you bought the fabric, if known.</string>
     <string name="empty_not_saved">Project not saved because it is empty.</string>
     <string name="fabric_picture">Your fabric.</string>
+    <string name="fp_fabric_picture">Go to your fabrics.</string>
+    <string name="fp_project_picture">Go to your projects.</string>
     <string name="DATE_FORMAT">yyyyMMdd_HHmmss</string>
     <string name="no_project">No Project</string>
+    <string name="text_welcome">Welcome to the FabApp!</string>
 </resources>
