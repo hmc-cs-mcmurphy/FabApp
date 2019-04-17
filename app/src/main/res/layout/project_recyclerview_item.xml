@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view_welcome"
+        android:layout_width="312dp"
+        android:layout_height="99dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        card_view:cardCornerRadius="4dp"
+        card_view:layout_constraintBottom_toTopOf="@+id/card_view_fabrics"
+        card_view:layout_constraintEnd_toEndOf="parent"
+        card_view:layout_constraintStart_toStartOf="parent"
+        card_view:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        card_view:layout_constraintVertical_bias="0.175">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="222dp"
+            android:layout_gravity="left"
+            android:orientation="vertical"
+            android:weightSum="100">
+
+        <TextView
+            android:id="@+id/textView"
+            style="@style/project_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:clickable="true"
+            android:onClick="onClick" />
+
+        <TextView
+            android:id="@+id/textView2"
+            style="@style/project_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:clickable="true"
+            android:onClick="onClick" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+    <!--<android.support.constraint.ConstraintLayout-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
+
+    <!--</android.support.constraint.ConstraintLayout>-->

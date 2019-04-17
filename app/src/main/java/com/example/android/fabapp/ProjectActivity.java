@@ -34,7 +34,7 @@ public class ProjectActivity extends AppCompatActivity implements ProjectListAda
         mProjectViewModel = ViewModelProviders.of(this).get(ProjectViewModel.class);
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_project);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -95,7 +95,6 @@ public class ProjectActivity extends AppCompatActivity implements ProjectListAda
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == NEW_PROJECT_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            System.out.print("Data is:");
 //            System.out.println(data.getStringExtra(NewProjectActivity.EXTRA_REPLY));
 //            Project project = new Project(data.getStringExtra(NewProjectActivity.EXTRA_REPLY),
 //                    data.getStringExtra(NewProjectActivity.EXTRA_REPLY_1));

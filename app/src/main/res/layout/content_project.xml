@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".ProjectActivity"
-    tools:showIn="@layout/activity_main">
+    tools:showIn="@layout/activity_project">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview"
@@ -15,6 +15,6 @@
         android:background="?attr/colorBackgroundFloating"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="57dp"
-        tools:listitem="@layout/recyclerview_item" />
+        tools:listitem="@layout/project_recyclerview_item" />
 
 </android.support.constraint.ConstraintLayout>
