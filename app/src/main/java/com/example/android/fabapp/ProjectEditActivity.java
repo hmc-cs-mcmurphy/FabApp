@@ -2,12 +2,15 @@ package com.example.android.fabapp;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -22,8 +25,11 @@ public class ProjectEditActivity extends AppCompatActivity implements DatePicker
     private TextView mEditProjectStartDate;
     Context context;
 
+    private Project originalProject;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate: in edit project activity");
 
         super.onCreate(savedInstanceState);
         context = this;
@@ -32,8 +38,9 @@ public class ProjectEditActivity extends AppCompatActivity implements DatePicker
         mEditProjectDimension = findViewById(R.id.ep_project_dimension);
         mEditProjectStartDate = findViewById(R.id.ep_project_sd);
 
-        Project project = getIncomingIntent();
+        final Project project = getIncomingIntent();
         Log.d(TAG, "onCreate: dimensions are " + project.getDimension());
+        originalProject = project;
 
         mEditProjectName.setText(project.getProject());
         mEditProjectDimension.setText(project.getDimension());
@@ -115,6 +122,41 @@ public class ProjectEditActivity extends AppCompatActivity implements DatePicker
         }
         String setText = month_x + "/" + day_x + "/" + year;
         ((TextView) findViewById(R.id.ep_project_sd)).setText(setText);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            Log.d(TAG, "onKeyDown: back buttons pressed!");
+            AlertDialog alertDialog = new AlertDialog.Builder(ProjectEditActivity.this).create();
+            alertDialog.setTitle("Alert");
+            alertDialog.setMessage("Going back will lose your current changes.\nAre you sure you'd like to leave?");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Yes, I'm sure",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            Intent replyIntent = new Intent();
+                            Bundle extras = new Bundle();
+                            String projectName = originalProject.getProject();
+                            String projectDimen = originalProject.getDimension();
+                            String projectStartDate = originalProject.getStartDate();
+                            extras.putString("PROJECT_NAME", projectName);
+                            extras.putString("PROJECT_DIMENSION", projectDimen);
+                            extras.putString("PROJECT_START_DATE", projectStartDate);
+                            replyIntent.putExtras(extras);
+                            setResult(RESULT_OK, replyIntent);
+                            finish();
+                        }
+                    });
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No, stay here",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }

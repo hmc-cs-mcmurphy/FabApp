@@ -1,6 +1,7 @@
 package com.example.android.fabapp;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,9 +11,11 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,6 +39,7 @@ public class FabricEditActivity extends AppCompatActivity {
     private EditText mEditFabricPurchaseLocation;
     private ImageView mEditImageView;
     private String currentPhotoPath;
+    private Fabric originalFabric;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,7 @@ public class FabricEditActivity extends AppCompatActivity {
         actionBar.setTitle("Edit fabric");
 
         Fabric fabric = getIncomingIntent();
+        originalFabric = fabric;
 
         Bitmap bmImg = BitmapFactory.decodeFile(fabric.getFabricUri());
         mEditImageView.setImageBitmap(bmImg);
@@ -241,5 +246,47 @@ public class FabricEditActivity extends AppCompatActivity {
         Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions);
         mEditImageView.setImageBitmap(bitmap);
 
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            Log.d(TAG, "onKeyDown: back buttons pressed!");
+            AlertDialog alertDialog = new AlertDialog.Builder(FabricEditActivity.this).create();
+            alertDialog.setTitle("Alert");
+            alertDialog.setMessage("Going back will lose your current changes.\nAre you sure you'd like to leave?");
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Yes, I'm sure",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            Intent replyIntent = new Intent();
+                            Bundle extras = new Bundle();
+                            String fabricName = originalFabric.getFabricName();
+                            String fabricLine = originalFabric.getFabricLine();
+                            String fabricMaker = originalFabric.getFabricMaker();
+                            String fabricYardage = originalFabric.getFabricYardage();
+                            String fabricPurchaseLocation = originalFabric.getFabricPurchaseLocation();
+                            // ADD THE URI FOR THE PHOTO
+                            extras.putString("FABRIC_NAME", fabricName);
+                            extras.putString("FABRIC_URI", currentPhotoPath);
+                            extras.putString("FABRIC_LINE", fabricLine);
+                            extras.putString("FABRIC_MAKER", fabricMaker);
+                            extras.putString("FABRIC_YARDAGE", fabricYardage);
+                            extras.putString("FABRIC_PURCHASE_LOCATION", fabricPurchaseLocation);
+                            replyIntent.putExtras(extras);
+                            setResult(RESULT_OK, replyIntent);
+                            finish();
+                        }
+                    });
+            alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "No, stay here",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
