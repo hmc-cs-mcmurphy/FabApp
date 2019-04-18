@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,12 +32,15 @@ public class ProjectActivity extends AppCompatActivity implements ProjectListAda
 
 //        getActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+
         mProjectViewModel = ViewModelProviders.of(this).get(ProjectViewModel.class);
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_project);
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setTitle("Project Library");
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         final ProjectListAdapter adapter = new ProjectListAdapter(this,this);
@@ -79,8 +83,12 @@ public class ProjectActivity extends AppCompatActivity implements ProjectListAda
         switch (id) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
+//                NavUtils.navigateUpFromSameTask(this);
+//                return true;
+//            // handle arrow click here
+//            if (item.getItemId() == android.R.id.home) {
+                finish(); // close this activity and return to preview activity (if there is any)
+//            }
         }
 
         //noinspection SimplifiableIfStatement
@@ -95,7 +103,6 @@ public class ProjectActivity extends AppCompatActivity implements ProjectListAda
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == NEW_PROJECT_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            System.out.print("Data is:");
 //            System.out.println(data.getStringExtra(NewProjectActivity.EXTRA_REPLY));
 //            Project project = new Project(data.getStringExtra(NewProjectActivity.EXTRA_REPLY),
 //                    data.getStringExtra(NewProjectActivity.EXTRA_REPLY_1));

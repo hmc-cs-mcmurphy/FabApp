@@ -17,16 +17,18 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
     private List<Project> mProjects; // Cached copy of projects
 
     class ProjectViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        private final TextView projectItemView;
+        private final TextView projectTitleItemView;
+        private final TextView projectDetailsItemView;
 
         OnProjectListener onProjectListener;
 
         private ProjectViewHolder(View itemView, OnProjectListener onProjectListener) {
             super(itemView);
-            projectItemView = itemView.findViewById(R.id.textView);
+            projectTitleItemView = itemView.findViewById(R.id.textView);
+            projectDetailsItemView = itemView.findViewById(R.id.textView2);
             this.onProjectListener = onProjectListener;
 
-            projectItemView.setOnClickListener(this);
+            projectTitleItemView.setOnClickListener(this);
         }
 
         @Override
@@ -35,13 +37,11 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
         }
     }
 
-
-//     Added in place of package private one below March 3
-ProjectListAdapter(Context context, OnProjectListener onProjectListener) {
-//        this.mProjects = projects;
-        this.mOnProjectListener = onProjectListener;
-        mInflater = LayoutInflater.from(context);
-    }
+        ProjectListAdapter(Context context, OnProjectListener onProjectListener) {
+    //        this.mProjects = projects;
+            this.mOnProjectListener = onProjectListener;
+            mInflater = LayoutInflater.from(context);
+        }
 //    ProjectListAdapter(Context context) {
 //        mInflater = LayoutInflater.from(context);
 //    }
@@ -49,7 +49,7 @@ ProjectListAdapter(Context context, OnProjectListener onProjectListener) {
     @NonNull
     @Override
     public ProjectViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = mInflater.inflate(R.layout.recyclerview_item, parent, false);
+        View itemView = mInflater.inflate(R.layout.project_recyclerview_item, parent, false);
         return new ProjectViewHolder(itemView, mOnProjectListener);
     }
 
@@ -58,10 +58,13 @@ ProjectListAdapter(Context context, OnProjectListener onProjectListener) {
         if (mProjects != null) {
             Project current = mProjects.get(position);
             String content = current.getProject();
-            holder.projectItemView.setText(content);
+            String details = current.getStartDate();
+            details = "Started " + details;
+            holder.projectDetailsItemView.setText(details);
+            holder.projectTitleItemView.setText(content);
         } else {
             // Covers the case of data not being ready yet.
-            holder.projectItemView.setText(R.string.no_project);
+            holder.projectTitleItemView.setText(R.string.no_project);
         }
     }
 
