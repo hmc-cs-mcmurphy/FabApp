@@ -135,17 +135,20 @@ public class ProjectDetailsActivity extends AppCompatActivity {
         String projectDimensions = project.getDimension();
         String projectStartDate = project.getStartDate();
 
-        TextView name = findViewById(R.id.project_name);
+        TextView name = findViewById(R.id.project_title_tv);
+        projectName = getString(R.string.project_title_string, projectName);
         name.setText(projectName);
 
 
         if (projectDimensions != null){
             TextView dimension = findViewById(R.id.project_dimension);
+            projectDimensions = getString(R.string.project_dimension_string, projectDimensions);
             dimension.setText(projectDimensions);
         }
 
         if (projectStartDate != null) {
             TextView startDate = findViewById(R.id.project_start_date);
+            projectStartDate = getString(R.string.project_start_date_string, projectStartDate);
             startDate.setText(projectStartDate);
         }
     }

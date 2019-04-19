@@ -29,4 +29,9 @@
     <string name="DATE_FORMAT">yyyyMMdd_HHmmss</string>
     <string name="no_project">No Project</string>
     <string name="text_welcome">Welcome to the FabApp!</string>
+
+    <!--Project Stuff-->
+    <string name="project_title_string"><b>Project Title:</b> %s</string>
+    <string name="project_dimension_string"><b>Dimensions:</b> %s</string>
+    <string name="project_start_date_string"><b>Start Date:</b> %s</string>
 </resources>

@@ -24,11 +24,12 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
 
         private ProjectViewHolder(View itemView, OnProjectListener onProjectListener) {
             super(itemView);
-            projectTitleItemView = itemView.findViewById(R.id.textView);
-            projectDetailsItemView = itemView.findViewById(R.id.textView2);
+            projectTitleItemView = itemView.findViewById(R.id.projectTitle);
+            projectDetailsItemView = itemView.findViewById(R.id.projectDetails);
             this.onProjectListener = onProjectListener;
 
             projectTitleItemView.setOnClickListener(this);
+            projectDetailsItemView.setOnClickListener(this);
         }
 
         @Override
@@ -59,7 +60,11 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
             Project current = mProjects.get(position);
             String content = current.getProject();
             String details = current.getStartDate();
-            details = "Started " + details;
+            if (!details.equals("")) {
+                details = "Started " + details;
+            } else {
+                details = "No start date specified.";
+            }
             holder.projectDetailsItemView.setText(details);
             holder.projectTitleItemView.setText(content);
         } else {
